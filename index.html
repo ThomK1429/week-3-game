@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>The Hangman Test</title>
+</head>
+<body onload="initScreen()">
+
+	<div id="game">
+
+	</div>
+
+<script type="text/javascript">
+	var numberOfTurns = 13;
+
+	var kc = 1;
+
+	var userGuess = " ";
+	var lettersUsed = [];
+
+	var wordToGuess = [];
+	var xwordToGuessLen = 0;
+	var screenWord = [];
+
+	var computerChoices = ['a', 'e', 'i', 'o', 'u'];
+	var computerGuess = " ";
+	var listOfWords = ['first','eeeeee','third', 'fourth', 'tk'];
+	
+	var str = "abc";
+
+  	function initArray(theArray, len) {
+  		for (var i = 0; i < len; i++) {
+		  	theArray[i] = "_";
+		}
+		return theArray;
+	}
+
+
+	function strTheArray(theArray) {
+		var stringVar = "";
+		for (var i = 0; i < theArray.length; i++) {			
+		  	stringVar = stringVar + "|" + theArray[i] ;
+		}
+		stringVar = stringVar + "|";
+		return stringVar;
+	}
+
+
+	function dispTheArray(theArray) {
+		var stringVar = "";
+		for (var i = 0; i < theArray.length; i++) {			
+		  	stringVar = stringVar + "&nbsp;" + theArray[i] ;
+		}
+		
+		return stringVar;
+	}
+
+
+	function initScreen(){
+		initArray(lettersUsed, 26);
+
+
+
+		kc = "&nbsp";
+		computerGuess = "&nbsp";
+
+		// TK need a rand num generator here
+		str = listOfWords[Math.floor(Math.random() * (listOfWords.length + 1)) ];
+
+		//str = listOfWords[1];		  
+
+		wordToGuess = [...str];
+
+		alert("str = " + str);
+		//alert("wordToGuess : " + wordToGuess);
+
+		xwordToGuessLen = wordToGuess.length;
+
+		// fill the screenWord with underscores for display
+		initArray(screenWord, wordToGuess.length);
+		setTheScreen();
+
+	
+	}
+
+
+	function setTheScreen() {
+		document.getElementById("in_key").innerHTML = userGuess;
+		// document.getElementById("comp_said").innerHTML = computerGuess;
+		document.getElementById("numb_turns_remaining").innerHTML = numberOfTurns;
+		document.getElementById("key_code").innerHTML = kc;
+		document.getElementById("guess_the_word").innerHTML = dispTheArray(screenWord);
+		document.getElementById("letters_used").innerHTML = strTheArray(lettersUsed);
+	}
+
+	 		
+	
+
+	document.onkeyup = function(event) {
+
+		userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+		kc = event.keyCode;
+		 
+	
+		 
+		if(numberOfTurns == 13) {
+			initArray(lettersUsed, 26);
+		} 
+
+		/*if (event.keyCode == 17){
+			initScreen();
+
+		}*/
+
+		if (event.keyCode == 999){
+
+			
+			/* alert(event.keyCode); */
+			numberOfTurns = 13;	
+			userGuess = "&nbsp;";
+			computerGuess = "&nbsp;";
+
+			// tk need the new word processing here
+			xwordToGuessLen = wordToGuess.length;
+			initArray(lettersUsed, 26);
+			initArray(screenWord, xwordToGuessLen);
+			 
+
+			kc = "&nbsp;";
+
+			setTheScreen();  
+		}
+
+		  else if((numberOfTurns > 0)  &&  (lettersUsed[event.keyCode - 65] == "_")) {
+			numberOfTurns--;
+
+			lettersUsed[event.keyCode - 65] = userGuess;
+
+			/* search if letter is present in the string */
+			/* if so, blank it out, and add to screen display */
+
+			
+
+			var i = str.search(userGuess);
+
+			// if (i != -1) {
+			while (i != -1) {
+				
+				screenWord[i] = userGuess;
+				xwordToGuessLen--;
+
+				wordToGuess[i] = "_";
+
+
+
+
+				str = wordToGuess.join("");
+				//wordToGuess = [...str];
+
+
+				i = str.search(userGuess);
+			}
+			
+		  			
+				
+
+			//computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+
+			setTheScreen();
+
+			if(xwordToGuessLen <=0 ) {
+				alert("YOU WON !!!!!!");
+		 	}
+
+
+		  }
+
+		   
+
+	
+	
+
+	} // END - document.onkeyup = function(event) //
+</script>
+
+
+
+	<div style="text-align: center">
+		<h1> - - - The &nbsp;  H A N G M A N  &nbsp;Test - - -</h1>
+
+		<br><br>
+
+		<h3> Guess the word by selecting a letter on the keyboard. </h3>
+
+		<br>
+
+		<h3> You entered...<br><span id="in_key"></span>&nbsp;</h3>
+
+		<h3>Key Code: <br><span id="key_code">&nbsp;</span></h3> 
+
+		<!-- <h3>And the computer said ...<br> <span id="comp_said">&nbsp;</span></h3> -->
+
+		<br>
+
+		<h3>Guess the word:<br><span id="guess_the_word"></span> </h3>
+
+		<h3>Letters used so far:  <br><span id="letters_used"></span> </h3>
+
+		<br>
+
+		<h3>Remaining # of turns: <br><h1><h1><span id="numb_turns_remaining"></h1>&nbsp;</span></h3> 
+
+
+	<!-- Footer processing -->
+  	<div class="clearfix visible-xs"></div>
+  	<div class="panel-footer"> &copy;Copyright 2016 Thom. Keel</div>
+	</div>
+
+	
+	
+	
+</body>
+</html>
