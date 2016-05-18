@@ -1,16 +1,10 @@
 <!DOCTYPE html>
-<!-- Homework03 - Hangman using Javascript                                             -->
-<!-- Free sound files obtained at http://soundbible.com/1964-Small-Crowd-Applause.html -->
-<!-- They are used for educational purposes only                                       -->
-<!-- Actual sound file names have been renamed for readablity in terms of win or loss  -->
-
-
 <html>
 <head>
 	<title>The Hangman Test</title>
 
-	<!-- Link to CSS files etc   -->    
-	<!-- <link href="assets/css/reset.css" rel="stylesheet" type="text/css">  -->
+	<!-- Link to CSS files etc       -->
+	<!--<link href="assets/css/reset.css" rel="stylesheet" type="text/css">  -->
     <link href="assets/css/style.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -38,13 +32,6 @@
 	var listOfWords = ['first','eeeeee','third', 'fourth', 'tk'];
 	
 	var str = "abc";
-
-	// http://soundbible.com/1964-Small-Crowd-Applause.html
-	// SMALL_CROWD_APPLAUSE-Yannick_Lemieux-1268806408.mp3
-	var win1  = new Audio("assets/sounds/win-1-sound.mp3");
-	var win2  = new Audio("assets/sounds/win-2-sound.mp3");
-	var loss1 = new Audio("assets/sounds/loss-1-sound.mp3");
-
 
   	function initArray(theArray, len) {
   		for (var i = 0; i < len; i++) {
@@ -97,7 +84,6 @@
 		// fill the screenWord with underscores for display
 		initArray(screenWord, wordToGuess.length);
 		setTheScreen();
-
 
 	
 	}
@@ -187,24 +173,9 @@
 
 			setTheScreen();
 
-			<!-- YOU WIN -->
-			if((xwordToGuessLen <=0 ) && (numberOfTurns > 0)) {
-
-				if(numberOfTurns > 6)
-				    win1.play();
-				else
-					win2.play();
-
-			alert("YOU WON !!!!!!");
-			}
-
-			<!-- YOU Lose -->
-			if((xwordToGuessLen > 0 ) && (numberOfTurns <= 0)) {
-
-				loss1.play();
-
-				alert("You LOSE !!!!!!");
-			}
+			if(xwordToGuessLen <=0 ) {
+				alert("YOU WON !!!!!!");
+		 	}
 
 
 		  }
