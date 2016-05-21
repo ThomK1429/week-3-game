@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<!-- Homework03 - Hangman using Javascript  - Due   5/21/2016 - author Tom Keel        -->
+<!-- Free sound files obtained at http://soundbible.com/1964-Small-Crowd-Applause.html -->
+<!-- They are used for educational purposes only                                       -->
+<!-- Actual sound file names have been renamed for readablity in terms of win or loss  -->
+
+
+<html>
+<head>
+	<title>The Hangman Game</title>
+
+	<!-- Link to CSS files etc   -->    
+	<!-- <link href="assets/css/reset.css" rel="stylesheet" type="text/css">  -->
+    <link href="assets/css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+
+<body onload="initScreen()">
+
+	<div id="game">
+	</div>
+
+<script type="text/javascript">
+	var numberOfTurns = 13;				// you are given 13 tries to guess the word
+
+	var kc = 1;
+
+	var userGuess = " ";
+	var lettersUsed = [];				// a placeholder for letters used, stored in  a-z order
+	var randNum = -1;
+
+	var wordToGuess = [];
+	var xwordToGuessLen = 0;
+	var screenWord = [];
+
+	var computerChoices = ['a', 'e', 'i', 'o', 'u'];
+	var computerGuess = " ";
+	var listOfWords = [ 'zeroth', 'first','second','third', 'fourth', 'fifth', 
+						'sixth', 'seventh','eighth','nineth', 'tenth', 'meeeeow', 
+						'eleventh', 'twelfth','thirteenth','fourteenth', 'fifteenth', 'baaaark'];	
+	
+	var str = "abc";
+
+	var losses = 0;
+	var wins = 0;
+	var winsAndLosses = " ";
+
+	// http://soundbible.com/1964-Small-Crowd-Applause.html
+	// SMALL_CROWD_APPLAUSE-Yannick_Lemieux-1268806408.mp3
+	var win1  = new Audio("assets/sounds/win-1-sound.mp3");
+
+	// http://soundbible.com/487-Applause-Light.html
+	// Applause Light-SoundBible.com-176488688.mp3
+	var win2  = new Audio("assets/sounds/win-2-sound.mp3");
+
+	// http://soundbible.com/471-Crowd-Boo-1.html
+	// Crowd Boo 1-SoundBible.com-437793776.mp3
+	var loss1 = new Audio("assets/sounds/loss-1-sound.mp3");
+
+	// http://soundbible.com/2067-Blop.html
+	// Blop-Mark_DiAngelo-79054334.mp3
+	var duplicateBlopSound = new Audio("assets/sounds/duplicate-blop-sound.mp3");
+
+
+  	function initArray(theArray, len) {
+  		for (var i = 0; i < len; i++) {
+		  	theArray[i] = "_";
+		}
+		return theArray;
+	}
+
+
+	function strTheArray(theArray) {
+		var stringVar = "";
+		for (var i = 0; i < theArray.length; i++) {			
+		  	stringVar = stringVar + "|" + theArray[i] ;
+		}
+		stringVar = stringVar + "|";
+		return stringVar;
+	}
+
+
+	function dispTheArray(theArray) {
+		var stringVar = "";
+		for (var i = 0; i < theArray.length; i++) {			
+		  	stringVar = stringVar + "&nbsp;" + theArray[i] ;
+		}
+		
+		return stringVar;
+	}
+
+
+	function initScreen(){
+		initArray(lettersUsed, 26);
+
+		kc = "&nbsp";
+		numberOfTurns = 13;	
+		computerGuess = "&nbsp";
+		winsAndLosses = (" " + wins + " & " + losses);
+
+		// TK need a rand num generator here
+		randNum = Math.floor(Math.random() * (listOfWords.length + 1));
+		// alert("randNum = " + randNum);
+		str = listOfWords[randNum];
+		//str = listOfWords[Math.floor(Math.random() * (listOfWords.length + 1)) ];
+
+		//str = listOfWords[1];		  
+
+		wordToGuess = [...str];
+
+		 //alert("str = " + str);
+		//alert("wordToGuess : " + wordToGuess);
+
+		xwordToGuessLen = wordToGuess.length;
+
+
+
+		// fill the screenWord with underscores for display
+		screenWord.length = 0;
+		initArray(screenWord, wordToGuess.length);
+		setTheScreen();
+	
+	}
+
+
+	function setTheScreen() {
+		document.getElementById("in_key").innerHTML = userGuess;
+		// document.getElementById("comp_said").innerHTML = computerGuess;
+		document.getElementById("numb_turns_remaining").innerHTML = numberOfTurns;
+		//document.getElementById("key_code").innerHTML = kc;
+		document.getElementById("guess_the_word").innerHTML = dispTheArray(screenWord);
+		document.getElementById("letters_used").innerHTML = strTheArray(lettersUsed);
+		document.getElementById("wins_and_losses").innerHTML = winsAndLosses;
+
+		document.getElementById("rand_num").innerHTML = randNum;
+	}
+
+	 		
+	
+
+	document.onkeyup = function(event) {
+
+		userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+		kc = event.keyCode;
+		 
+	
+		 
+		if(numberOfTurns == 13) {  
+			initArray(lettersUsed, 26);
+		} 
+
+		if (event.keyCode == 32){  // depress spacebar to play again
+			initScreen();
+	 	}
+
+		if (event.keyCode == 17){  // depress ctrl key for game reset
+
+			
+			/* alert(event.keyCode); */
+			numberOfTurns = 13;	
+			userGuess = "&nbsp;";
+			computerGuess = "&nbsp;";
+
+			// tk need the new word processing here
+			xwordToGuessLen = wordToGuess.length;
+			initArray(lettersUsed, 26);
+			initArray(screenWord, xwordToGuessLen);
+
+			wins = 0;
+			losses = 0;
+			initScreen();
+			 
+
+			kc = "&nbsp;";
+
+			setTheScreen();  
+		}
+
+		  else if((numberOfTurns > 0)  &&  (lettersUsed[event.keyCode - 65] == "_")) {
+			numberOfTurns--;
+
+			lettersUsed[event.keyCode - 65] = userGuess;
+
+			/* search if letter is present in the string */
+			/* if so, blank it out, and add to screen display */
+
+			
+
+			var i = str.search(userGuess);
+
+			// if (i != -1) {
+			while (i != -1) {
+				
+				screenWord[i] = userGuess;
+				xwordToGuessLen--;
+
+				wordToGuess[i] = "_";
+
+
+
+
+				str = wordToGuess.join("");
+				//wordToGuess = [...str];
+
+
+				i = str.search(userGuess);
+			};
+			
+		  			
+				
+
+			//computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+
+			setTheScreen();
+
+			<!-- YOU WIN -->
+			if((xwordToGuessLen <=0 ) && (numberOfTurns >= 0)) {
+
+				if(numberOfTurns > 6) {
+				    win1.play();
+				}
+				else {
+					win2.play();
+				}
+
+
+				//  alert("YOU WON !!!!!!");
+				wins++;
+				winsAndLosses  = (" " + wins + " & " + losses + " ");
+				setTheScreen();
+				alert("YOU WON !!!!!!");
+			}
+
+			<!-- YOU Lose -->
+			if((xwordToGuessLen > 0 ) && (numberOfTurns <= 0)) {
+
+				loss1.play();
+
+				losses++;
+				winsAndLosses  = (" " + wins + " & " + losses + " ");
+				setTheScreen();	
+				alert("You LOSE !!!!!!");
+			}
+
+
+		  }
+
+		  else  // Duplicate letter chosen
+		  	{
+		  		duplicateBlopSound.play();
+		  	}
+
+		   
+
+	
+	
+
+	} // END - document.onkeyup = function(event) //
+</script>
+
+
+
+	<div style="text-align: center">
+		<br>
+
+		<h1> - - - The &nbsp;  H A N G M A N  &nbsp;Game - - -</h1>
+		
+		
+
+		<h2> Guess the word by selecting a letter on the keyboard. </h2>
+
+		<br>
+
+		 <h3> You entered...<br><span id="in_key"></span>  &nbsp;</h3>
+
+		<!--  <h3>Key Code: <br><span id="key_code">&nbsp;</span></h3>    <br>  -->  
+
+		
+
+		<h3>Guess the word:<br><br><span id="guess_the_word"></span> </h3>
+
+		<br>
+
+		<h3>Remaining # of turns: <br><h1><h1><span id="numb_turns_remaining"></h1>&nbsp;</span></h3> 
+
+		<h3>Letters used so far:  <br><span id="letters_used"></span> </h3>
+		<h3>Wins &amp; Losses:  <br><span id="wins_and_losses"></span> </h3>
+
+
+
+		<br><br>
+
+		<!-- Footer processing -->
+	  	<div class="clearfix visible-xs"></div>
+	  	<div class="panel-footer"> &copy;Copyright 2016 Thom. Keel - 
+	  		<span style="font-size: 10px"> CTRLkey - game reset, SPACEbar - play again, Number types ie. 1st 2nd 3rd... <span id="rand_num"></span></span>
+	  	</div>
+
+	</div>
+
+	
+	
+	
+</body>
+</html>

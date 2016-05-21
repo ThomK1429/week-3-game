@@ -29,7 +29,7 @@
 	</div>
 
 <script type="text/javascript">
-	/// - - - - - - - - - - - - - -DECLARE THE VARIABLES - - - - - - - - - - //
+	// Declare the variables
 
 
 	// Audio:
@@ -63,7 +63,6 @@
 
 	var kc = 1;		// test purposes 	// keycode of the letter the player entered    tk
 
-	var letterEntered = " ";				// a letter the player entered to guess or spell the word
 	var lettersUsed = [];				// placeholder for letters used, stored in  a-z order
 
 	// a list of words, which will be selected at random, for the player of the game to guess
@@ -71,19 +70,22 @@
 						'sixth', 'seventh','eighth','nineth', 'tenth', 'meeeeow', 
 						'eleventh', 'twelfth','thirteenth','fourteenth', 'fifteenth', 'baaaark'];
 
+	var userGuess = " ";				// a letter the player entered to guess or spell the word
 	var randNum = -1;					// a random number generated used for random selection from
 										//    the listOfWords array
-	var randomWord = "abc";									
+
 
 
 	var wordToGuess = [];
 	var xwordToGuessLen = 0;
-	var guessTheWord = [];
-
-	
+	var screenWord = [];
 
 
-// - - - - - - - - - - - - - - - -DEFINE THE FUNCTIONS  - - - - - - - - - -  //
+	var str = "abc";
+
+	var winsAndLosses = " ";
+
+
 
 	function dispTheArray(theArray) {
 	// format any array into a string bordered by a vertical bar
@@ -126,22 +128,24 @@
 
 		kc = "&nbsp";
 		ctr_numberOfTurns = 13;	
-		letterEntered = " ";
+		userGuess = " ";
+
+		winsAndLosses = (" " + ctr_wins + " & " + ctr_losses);
 
 		randNum = Math.floor(Math.random() * (listOfWords.length + 1));
 
-		randomWord = listOfWords[randNum];
-		//randomWord = listOfWords[1];			// test purposes - test a specific word
-	  	//alert("randomWord1=" + randomWord);
+		str = listOfWords[randNum];
+		//str = listOfWords[1];	
+		//alert("str = " + str)	  
 
-		wordToGuess = [...randomWord];
-		alert("wordToGuess : " + wordToGuess);
+		wordToGuess = [...str];
+		//alert("wordToGuess : " + wordToGuess);
 
 		xwordToGuessLen = wordToGuess.length;
 
-		// fill the guessTheWord array with underscores for display
-		guessTheWord.length = 0;
-		initArray(guessTheWord, wordToGuess.length);
+		// fill the screenWord with underscores for display
+		screenWord.length = 0;
+		initArray(screenWord, wordToGuess.length);
 		setTheScreen();
 	}
 
@@ -151,13 +155,13 @@
 	// Reset all items, that the game can be played fresh, as if for the first time
 		/* alert(event.keyCode); */
 		ctr_numberOfTurns = 13;	
-		letterEntered = "&nbsp;";
+		userGuess = "&nbsp;";
 		computerGuess = "&nbsp;";
 
 		// tk need the new word processing here
 		xwordToGuessLen = wordToGuess.length;
 		initArray(lettersUsed, 26);
-		initArray(guessTheWord, xwordToGuessLen);
+		initArray(screenWord, xwordToGuessLen);
 
 		ctr_wins = 0;
 		ctr_losses = 0;
@@ -171,13 +175,12 @@
 
 	function setTheScreen() {
 	// Issue the document.getElementByID... commands for the screen	
-		document.getElementById("in_key").innerHTML = letterEntered;
-		//document.getElementById("key_code").innerHTML = kc; // for test purposes
-		document.getElementById("guess_the_word").innerHTML = dispTheArray(guessTheWord);
+		document.getElementById("in_key").innerHTML = userGuess;
 		document.getElementById("numb_turns_remaining").innerHTML = ctr_numberOfTurns;
+		//document.getElementById("key_code").innerHTML = kc; // for test purposes
+		document.getElementById("guess_the_word").innerHTML = dispTheArray(screenWord);
 		document.getElementById("letters_used").innerHTML = strTheArray(lettersUsed);
-		//document.getElementById("wins_and_losses").innerHTML = winsAndLosses;
-		document.getElementById("wins_and_losses").innerHTML = (" " + ctr_wins + " & " + ctr_losses + " ");
+		document.getElementById("wins_and_losses").innerHTML = winsAndLosses;
 		document.getElementById("rand_num").innerHTML = randNum;
 	}
 
@@ -187,7 +190,7 @@
 		audio_loss1.play();		// play a sound for loser, I mean, player
 
 		ctr_losses++;
-		//winsAndLosses  = (" " + ctr_wins + " & " + ctr_losses + " ");
+		winsAndLosses  = (" " + ctr_wins + " & " + ctr_losses + " ");
 		setTheScreen();	
 
 		alert("You LOSE !!!!!!");	// display a msg, YOU lost!!	
@@ -204,7 +207,7 @@
 			}
 
 		ctr_wins++;
-		//winsAndLosses  = (" " + ctr_wins + " & " + ctr_losses + " ");
+		winsAndLosses  = (" " + ctr_wins + " & " + ctr_losses + " ");
 		setTheScreen();
 
 		alert("YOU WON !!!!!!");	// display a msg, YOU WON!!	
@@ -213,73 +216,83 @@
 
 
 
-// - - - - - - - - - - - - - - - -DEFINE THE PROCESSING ONKEYUP  - - - - - - - - - -  //
-
 	document.onkeyup = function(event) {
 	// when the player enters a character on the keyboard, and lifts their finger, 
 	// perform these items
-		letterEntered = String.fromCharCode(event.keyCode).toLowerCase();
+		userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 		kc = event.keyCode;
+		 		 
+		//if(ctr_numberOfTurns == 13) {  
+		//	initArray(lettersUsed, 26);
+		//} 
 
-		switch(event.keyCode) {
-    		case 17:
-       			//alert("17 - CTRL key - reset game");
-       			resetGame();
-       			return; 
-        		break;
-    		case 32:
-        		//alert("32 - spacebar - play again");
-        		initScreen();
-        		return;
-        		break;
-    		//default:
-        		//default code block
-		}  	
-		
-		if(lettersUsed[event.keyCode - 65] != "_") {
-			// Duplicate letter chosen
-		  	audio_duplBlopSound.play();
-		  	return;
-		}
+		if (event.keyCode == 32){  // depress spacebar to play again
+			initScreen();
+	 	}
 
-		// At this point letter has not been used, ck if letter is in the word being guessed
-		//if((ctr_numberOfTurns > 0)  &&  (lettersUsed[event.keyCode - 65] == "_")) {
-		//if((ctr_numberOfTurns > 0)  &&  (lettersUsed[event.keyCode - 65] == "_")) {
-		ctr_numberOfTurns--;							// decriment turn ctr
-		lettersUsed[event.keyCode - 65] = letterEntered;	// save in letters used array
+		if (event.keyCode == 17){  // depress ctrl key for game reset
+			resetGame();
+			}
 
-		/* search if letter is present in the string */
-		/* if so, underscore it out, and add letter to screen display */
+		  else if((ctr_numberOfTurns > 0)  &&  (lettersUsed[event.keyCode - 65] == "_")) {
+			ctr_numberOfTurns--;
+
+			lettersUsed[event.keyCode - 65] = userGuess;
+
+			/* search if letter is present in the string */
+			/* if so, blank it out, and add to screen display */
 
 			
-		//alert("str2=" + str);
-		var i = randomWord.search(letterEntered);
 
-		while (i != -1) {	// if i=-1, then letter is not found in string
-			guessTheWord[i] = letterEntered;
-			xwordToGuessLen--;
+			var i = str.search(userGuess);
 
-			wordToGuess[i] = "_";
+			// if (i != -1) {
+			while (i != -1) {
+				
+				screenWord[i] = userGuess;
+				xwordToGuessLen--;
 
-			randomWord = wordToGuess.join("");
-			//wordToGuess = [...str];
+				wordToGuess[i] = "_";
 
-			i = randomWord.search(letterEntered);
+
+
+
+				str = wordToGuess.join("");
+				//wordToGuess = [...str];
+
+
+				i = str.search(userGuess);
 			};
+			
+		  			
+				
 
-		setTheScreen();
+			//computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
 
-		<!-- YOU WIN -->
-		if((xwordToGuessLen <=0 ) && (ctr_numberOfTurns >= 0)) {
-			updateWins();
-			};
+			setTheScreen();
 
-		if(ctr_numberOfTurns <= 0) {  
-			// -- YOU Lose --
-			updateLosses();
-			return;
-		}	
-  
+			<!-- YOU WIN -->
+			if((xwordToGuessLen <=0 ) && (ctr_numberOfTurns >= 0)) {
+				updateWins();
+			}
+
+			<!-- YOU Lose -->
+			if((xwordToGuessLen > 0 ) && (ctr_numberOfTurns <= 0)) {
+				updateLosses();
+			}
+
+
+		  }
+
+		  else  // Duplicate letter chosen
+		  	{
+		  		audio_duplBlopSound.play();
+		  	}
+
+		   
+
+	
+	
 
 	} // END - document.onkeyup = function(event) //
 </script>
