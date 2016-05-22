@@ -237,6 +237,18 @@
     		//default:
         		//default code block
 		}  	
+
+
+		// prevent the player from processing if they have already won
+		if((xwordToGuessLen <=0 ) && (ctr_numberOfTurns >= 0)) {
+			return;
+		};
+
+		// prevent the player from processing if they have already lost
+		if(ctr_numberOfTurns <= 0) {  
+			return;
+		}	
+		
 		
 		if(lettersUsed[event.keyCode - 65] != "_") {
 			// Duplicate letter chosen
