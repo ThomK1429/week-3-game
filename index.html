@@ -18,9 +18,10 @@
 	<title>The Hangman Game</title>
 
 	<!-- Link to CSS files etc   -->    
-	<!--<link href="assets/css/reset.css" rel="stylesheet" type="text/css">  -->   
+	<!-- <link href="assets/css/reset.css" rel="stylesheet" type="text/css">  --> 
+	<link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet' type='text/css'>  
     <link href="assets/css/style.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet' type='text/css'>
+    
 </head>
 
 
@@ -290,33 +291,74 @@
 	<div style="text-align: center">
 		 
 
-		<h1 style="font-family: 'Creepster', cursive; font-size: 60px"> - - - The &nbsp;  H A N G M A N  &nbsp;Game - - -</h1>
+		<div style="padding-top:30px; font-family: 'Creepster', cursive; font-size: 60px"> 
+			- - - The &nbsp;  H A N G M A N  &nbsp;Game - - -
+		</div>
 		
+
+
+		<div style="padding-top:20px; font-size: 22px; ">
+			<strong> Guess the word by selecting a letter on the keyboard. </strong>
+		</div>
+
+	
+		<div style="padding-top:40px; font-size: 24px;">
+			<strong>You entered...</strong> 
+		</div>
+		<div style="padding-top:10px; font-size: 20px;">
+			<span id="in_key"></span>  &nbsp;
+		</div>
+
+		<!--
+  		<div style="padding-top:40px; font-size: 24px;">
+  			<strong>Key Code: </strong> 
+  		</div>
+  		<div style="padding-top:10px; font-size: 20px;">
+  			<span id="key_code">&nbsp;</span>
+		</div>
+  		-->  
+
+		<div style="padding-top:40px; font-size: 24px;">
+			<strong>Guess the word:</strong> 
+		</div>
+		<div style="padding-top:10px; font-size: 20px;">
+			<span id="guess_the_word"></span> 
+		</div>
+
 		
+		<div style="padding-top:40px; font-size: 24px;">
+			<strong>Remaining # of turns:</strong>  
+		</div>
+		<div style="padding-top:10px; font-size: 20px;">
+			<span id="numb_turns_remaining">&nbsp;</span>
+		</div>
 
-		<h2> Guess the word by selecting a letter on the keyboard. </h2>
 
-		<br>
+		<div style="padding-top:40px; font-size: 24px;">
+			<strong>Letters used so far:  </strong> 
+		</div>
+		<div style="padding-top:10px; font-size: 22px;">
+			<span id="letters_used"></span> 
+		</div>
 
-		 <h3> You entered...<br><span id="in_key"></span>  &nbsp;</h3>
 
-		<!--  <h3>Key Code: <br><span id="key_code">&nbsp;</span></h3>    <br>  -->  
+		<div style="padding-top:40px; font-size: 24px;">
+			<strong>Wins &amp; Losses:  </strong> 
+		</div>
+		<div style="padding-top:10px; font-size: 20px;">
+			<span id="wins_and_losses"></span> 
+		</div>
 
-		<h3>Guess the word:<br><br><span id="guess_the_word"></span> </h3>
 
-		<br>
-
-		<h3>Remaining # of turns: <br><h1><h1><span id="numb_turns_remaining"></h1>&nbsp;</span></h3> 
-
-		<h3>Letters used so far:  <br><span id="letters_used"></span> </h3>
-		<h3>Wins &amp; Losses:  <br><span id="wins_and_losses"></span> </h3>
-
-		<br> 
 
 		<!-- Footer processing -->
-	  	<div class="clearfix visible-xs"></div>
-	  	<div class="panel-footer"> &copy;Copyright 2016 Thom. Keel - 
-	  		<span style="font-size: 10px"> CTRLkey - game reset, SPACEbar - play again, Number types ie. 1st 2nd 3rd... <span id="rand_num"></span></span>
+		<br> <br> <br> <br> 
+	  	<div  style=" ">
+	  		<em> &copy;Copyright 2016 Thom. Keel </em> - 
+	  		<span style="font-size: 10px"> 
+	  			CTRLkey - game reset, SPACEbar - play again, Number types ie. 1st 2nd 3rd... 
+	  			<span id="rand_num"></span>
+	  		</span>
 	  	</div>
 
 	</div>

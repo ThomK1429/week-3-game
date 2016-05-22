@@ -1,10 +1,8 @@
 
 body{ 
 	background-image: url("../images/fresh_snow.png"); 
+	font-family: 'Ariel', 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 
 
-h1{
-	text-align: center;
-}
