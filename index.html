@@ -121,6 +121,9 @@
 	}
 
 
+	function f1HelpScreen() {
+		alert("Cntl key - HELP key \n \n The word theme for today is numbers. \n The # range is 0-20,  with a cat/dog sound thrown in. \n Example: 1st, 2nd, 3rd etc");
+	}
 
 	function initScreen(){
 	// set our variables to their default values, and issue the document.getElementID... commands
@@ -229,9 +232,19 @@
        			resetGame();
        			return; 
         		break;
+        	case 18:
+        		//alert("18 - Alt key - Heeeeeellllllp");
+        		f1HelpScreen();
+        		return;
+        		break;	
     		case 32:
         		//alert("32 - spacebar - play again");
         		initScreen();
+        		return;
+        		break;
+        	case 18:
+        		alert("18 - F1 key - Heeeeeellllllp");
+        		f1HelpScreen();
         		return;
         		break;
     		//default:
@@ -310,7 +323,7 @@
 
 
 		<div style="padding-top:15px; font-size: 22px; ">
-			<strong> Guess the word by selecting a letter on the keyboard. </strong>
+			<strong> Guess the word by selecting a letter at a time on the keyboard. </strong>
 		</div>
 
 	
@@ -365,10 +378,8 @@
 
 		<!-- Footer processing -->
 		<div style="padding-top:25px; font-size: 10px;">
-	  		<em> &copy;Copyright 2016 Thom. Keel </em> - 
-	  		CTRLkey - game reset, SPACEbar - play again, the theme is number position ie. 1st 2nd 3rd... 
-	  		<span id="rand_num"></span>
-	  		</span>
+	  		<em> &copy;Copyright 2016 Thom. Keel - <span id="rand_num">
+	  		</span></em> - Alt key - HELP, CTRLkey - game reset, SPACEbar - play again.
 	  	</div>
 
 	</div>
