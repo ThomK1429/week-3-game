@@ -1,0 +1,19 @@
+
+body{ 
+
+	//http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/fresh_snow.png
+	//http://subtlepatterns.com/fresh-snow/
+	//https://www.google.com/search?q=fresh-snow.png+background&rlz=1C1SAVO_enUS647US687&espv=2&biw=1455&bih=707&tbm=isch&imgil=vf7WEdlMcNDDcM%253A%253Bb6mG3r_cKf9-VM%253Bhttp%25253A%25252F%25252Fsubtlepatterns.com%25252Ffresh-snow%25252F&source=iu&pf=m&fir=vf7WEdlMcNDDcM%253A%252Cb6mG3r_cKf9-VM%252C_&usg=__f0qjl4wbpVuv7WSTfdOfEHaOEwA%3D&ved=0ahUKEwjfqtz3qfDMAhUEcz4KHfzCDZcQyjcIKQ&ei=7QhDV5-AE4Tm-QH8hbe4CQ#imgrc=vf7WEdlMcNDDcM%3A
+	//background-image: url("../images/fresh-snow.png");
+
+
+	//http://7-themes.com/6899962-free-desert-landscape-wallpaper.html
+	background-image: url("../images/desert.jpg");
+	background-size:100%;
+	
+	font-family: 'Ariel', 'Helvetica Neue', Helvetica, sans-serif;
+	color: #f2f2f2;
+}
+
+
+
